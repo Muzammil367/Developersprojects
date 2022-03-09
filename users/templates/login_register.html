@@ -1,0 +1,58 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+{% if page == 'register' %}
+
+<form action="{% url 'users:register' %}" method="POST">
+    {% csrf_token %}
+    {{form.as_p}}
+    <input type="submit" value="Register User">
+
+</form>
+
+{% else %}
+
+<div class="auth">
+    <div class="card">
+      <div class="auth__header text-center">
+        <a href="/">
+          <img src="images/icon.svg" alt="icon" />
+        </a>
+        <h3>Account SignUp</h3>
+        <p>Create a new developer account</p>
+      </div>
+
+      <form action="{% url 'users:register' %}" class="form auth__form">
+        {% csrf_token %}
+
+        {% for field in form %}
+        <!-- Input:Email -->
+        <div class="form__field">
+          <label for="formInput#text">{{field.label}}</label>
+          {{field}}
+
+          {% for error in field.errors %}
+          <p style="color: red;">{{error}}</p>
+
+          {% endfor %}
+          
+        </div>
+
+        {% endfor %}
+
+        <div class="auth__actions">
+          <input class="btn btn--sub btn--lg" type="submit" value="Sign In" />
+        </div>
+      </form>
+      <div class="auth__alternative">
+        <p>Already have an Account?</p>
+        <a href="{% url 'users:login' %}">Log In</a>
+      </div>
+    </div>
+  </div>
+
+  {% else %}
+
+{% endif %}
+{% endblock %}
